@@ -40,11 +40,17 @@ public class DefaultReactiveEmailSenderImpl implements ReactiveEmailSender
     /** 提供 SMTP 服务的运营商主机名（例：smtp.gmail.com、smtp.qq.com）*/
     private final String smtpHost;
 
-    /** SMTP 端口号。*/
+    /** SMTP 端口号 */
     private final int smtpPort;
 
     /** 最大邮件发送尝试次数 */
     private final int maxAttemptTimes;
+
+    /** 指数退避起始时间间隔（单位：秒）*/
+    private final long startBackoffInterval;
+
+    /** 指数退避封顶时间间隔（单位：秒）*/
+    private final long maxBackoffInterval;
 
     /** 附件大小的上限（单位：MB）*/
     private final int maxAttachmentSize;
@@ -74,6 +80,8 @@ public class DefaultReactiveEmailSenderImpl implements ReactiveEmailSender
         this.smtpPort               = builder.getSmtpPort();
         this.maxAttemptTimes        = builder.getMaxAttemptTimes();
         this.maxAttachmentSize      = builder.getMaxAttachmentSize();
+        this.startBackoffInterval   = builder.getStartBackoffInterval();
+        this.maxBackoffInterval     = builder.getMaxBackoffInterval();
         this.enterPriceEmailAddress = builder.getEnterPriceEmailAddress();
         this.serviceAuthCode        = builder.getServiceAuthCode();
         this.mailProperties         = builder.getMailProperties();
@@ -95,6 +103,8 @@ public class DefaultReactiveEmailSenderImpl implements ReactiveEmailSender
         private String     smtpHost;
         private int        smtpPort;
         private int        maxAttemptTimes;
+        private long       startBackoffInterval;
+        private long       maxBackoffInterval;
         private int        maxAttachmentSize;
         private String     enterPriceEmailAddress;
         private String     serviceAuthCode;
@@ -120,6 +130,20 @@ public class DefaultReactiveEmailSenderImpl implements ReactiveEmailSender
         maxAttachmentSize(int attachmentSize)
         {
             this.maxAttachmentSize = attachmentSize;
+            return this;
+        }
+
+        public EmailSenderBuilder
+        startBackoffInterval(long interval)
+        {
+            this.startBackoffInterval = interval;
+            return this;
+        }
+
+        public EmailSenderBuilder
+        maxBackoffInterval(long interval)
+        {
+            this.maxBackoffInterval = interval;
             return this;
         }
 
@@ -396,8 +420,8 @@ public class DefaultReactiveEmailSenderImpl implements ReactiveEmailSender
          *
          * 比如代码中的调用：
          *
-         * Retry.backoff(MAX_ATTEMPT_TIMES, Duration.ofSeconds(1))
-         *      .maxBackoff(Duration.ofSeconds(10))
+         * Retry.backoff(this.maxAttemptTimes, Duration.ofSeconds(this.startBackoffInterval))
+                .maxBackoff(Duration.ofSeconds(this.maxBackoffInterval))
          *
          * 表明每失败一次，等待重试的时间就在原有的基础上乘以 2，
          * 具体如下表所示：
@@ -408,16 +432,17 @@ public class DefaultReactiveEmailSenderImpl implements ReactiveEmailSender
          *    1             2
          *    2             4
          *    3             8
-         *    4             10
-         *    5             10
+         *    4             maxBackoffInterval
+         *    5             maxBackoffInterval
+         * maxAttemptTimes  maxBackoffInterval
          * -----------------------------------
          *
          * maxBackoff() 则给重试时间封了顶，
-         * 不论重试多少次，等待时间都不会超过 10 秒。
+         * 不论重试多少次，等待时间都不会超过 maxBackoffInterval 秒。
          */
         final Retry retryStrategy
-            = Retry.backoff(this.maxAttemptTimes, Duration.ofSeconds(1))
-                   .maxBackoff(Duration.ofSeconds(10))
+            = Retry.backoff(this.maxAttemptTimes, Duration.ofSeconds(this.startBackoffInterval))
+                   .maxBackoff(Duration.ofSeconds(this.maxBackoffInterval))
                    .filter(this::isRetryableError)
                    .doBeforeRetry(retrySignal -> {
                         // 记录尝试次数和失败原因
