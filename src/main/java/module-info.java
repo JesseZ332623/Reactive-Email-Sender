@@ -2,6 +2,7 @@
 module reactive_email_sender
 {
     // Spring 相关依赖
+    requires spring.core;
     requires spring.boot;
     requires spring.context;
     requires spring.boot.autoconfigure;
