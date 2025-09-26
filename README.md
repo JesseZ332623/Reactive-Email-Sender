@@ -1,4 +1,4 @@
-# 基于 javax.mail 且无缝集成响应式编程的邮件发送器
+# 基于 jakarta.mail 且无缝集成响应式编程的邮件发送器
 
 ## 用法
 
@@ -8,11 +8,15 @@
 可以访问：[Reactive-Email-Sender](https://central.sonatype.com/artifact/io.github.jessez332623/reactive_email_sender)，
 也可以在 pom.xml 中直接配置：
 
+### 📢 重要通知
+
+1.1.0 版本完成了模块化迁移，建议使用新版。
+
 ```XML
 <dependency>
     <groupId>io.github.jessez332623</groupId>
     <artifactId>reactive_email_sender</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
