@@ -2,6 +2,7 @@ package io.github.jessez332623.reactive_email_sender.autoconfigure;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -35,10 +36,6 @@ public class ReactiveEmailSenderProperties
     @Max(value = 65535, message = "SMTP port not less then 65535")
     private int smtpPort;
 
-    /** 最大邮件发送尝试次数（默认 3 回）*/
-    @Positive(message = "Max attempt times must be positive")
-    private int maxAttemptTimes = 3;
-
     /** 附件大小的上限（单位：MB，默认为 8）*/
     @Positive(message = "Max attachment size must be positive")
     private int maxAttachmentSize = 8;
@@ -50,6 +47,9 @@ public class ReactiveEmailSenderProperties
     /** 邮箱服务授权码 */
     private String authCode;
 
+    /** 指数退避策略相关属性。*/
+    private BackOff backoff = new BackOff();
+
     /**
      * 邮件会话属性配置，示例如下：
      * <ul>
@@ -58,4 +58,21 @@ public class ReactiveEmailSenderProperties
      * </ul>
      */
     private Map<String, String> sessionProps = new HashMap<>();
+
+    @Data
+    @NoArgsConstructor
+    public static class BackOff
+    {
+        /** 最大邮件发送尝试次数（默认 3 回）*/
+        @Positive(message = "Max attempt times must be positive")
+        private int maxAttemptTimes = 3;
+
+        /** 指数退避起始时间间隔（单位：秒，默认为 1）*/
+        @Positive(message = "Start backoff interval must be positive")
+        private long startBackoffInterval = 1;
+
+        /** 指数退避封顶时间间隔（单位：秒，默认为 10）*/
+        @Positive(message = "Max backoff interval must be positive")
+        private long maxBackoffInterval = 10;
+    }
 }
