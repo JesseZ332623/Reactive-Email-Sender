@@ -2,19 +2,19 @@
 module reactive_email_sender
 {
     // Spring 相关依赖
-    requires transitive spring.boot;
-    requires transitive spring.context;
-    requires transitive spring.boot.autoconfigure;
-    requires transitive spring.beans;
+    requires spring.boot;
+    requires spring.context;
+    requires spring.boot.autoconfigure;
+    requires spring.beans;
 
     // Reactor 响应式编程
     requires transitive reactor.core;
 
     // Jakarta 依赖
-    requires transitive jakarta.annotation;
-    requires transitive jakarta.validation;
-    requires transitive jakarta.mail;
-    requires transitive jakarta.activation;
+    requires jakarta.annotation;
+    requires jakarta.validation;
+    requires jakarta.mail;
+    requires jakarta.activation;
 
     // Lombok（编译时依赖）
     requires static lombok;
