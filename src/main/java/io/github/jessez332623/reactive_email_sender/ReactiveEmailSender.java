@@ -5,7 +5,7 @@ import io.github.jessez332623.reactive_email_sender.exception.EmailException;
 import org.jetbrains.annotations.NotNull;
 import reactor.core.publisher.Mono;
 
-/** 封装了 javax.mail 库的响应式邮件发送器接口。*/
+/** 响应式邮件发送器接口。*/
 public interface ReactiveEmailSender
 {
     /**
