@@ -7,19 +7,33 @@
 	<version>1.0.0</version>
 	<name>reactive_email_sender</name>
 	<description>基于 javax.mail 且无缝集成响应式编程的邮件发送器</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+
+    <url>https://github.com/JesseZ332623/Reactive-Email-Sender</url>
+
+    <licenses>
+        <license>
+            <name>Apache License Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>JesseZ332623</name>
+            <email>zhj3191955858@gmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>
+            scm:https://github.com/JesseZ332623/Reactive-Email-Sender.git
+        </connection>
+        <developerConnection>
+            scm:https://github.com/JesseZ332623/Reactive-Email-Sender.git
+        </developerConnection>
+        <url>https://github.com/JesseZ332623/Reactive-Email-Sender</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <java.version>21</java.version>
