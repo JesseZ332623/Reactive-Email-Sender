@@ -163,25 +163,34 @@ public class DefaultReactiveEmailSenderImpl implements ReactiveEmailSender
             this.mailProperties.put("mail.smtp.connectionpooltimeout", "5000");
             this.mailProperties.put("mail.smtp.connectionpoolsize", "10");
 
+            this.mailProperties.put("mail.smtp.connectiontimeout", "10000");
+            this.mailProperties.put("mail.smtp.timeout", "10000");
+            this.mailProperties.put("mail.smtp.writetimeout", "10000");
+
             switch (this.smtpPort)
             {
                 case 465:
                     this.mailProperties.put("mail.smtp.ssl.enable", "true");
+                    this.mailProperties.put("mail.smtp.ssl.checkserveridentity", "true");
                     break;
 
                 case 587:
                     this.mailProperties.put("mail.smtp.starttls.enable", "true");
+                    this.mailProperties.put("mail.smtp.starttls.required", "true");
+                    break;
+
+                case 25:
+                    // 端口 25 通常不加密或使用 STARTTLS
+                    this.mailProperties.put("mail.smtp.starttls.enable", "true");
                     break;
 
                 default:
-                   throw new
-                   EmailException(
-                       CONFIG_MISSING,
-                       format(
-                           "Couldn't set Properties, Caused by: SMTP Port: %d is invalid!",
-                           this.smtpPort
-                       )
+                   log.warn(
+                       "Uncommon SMTP port: {}, security settings may need adjustment",
+                       this.smtpPort
                    );
+
+                   this.mailProperties.put("mail.smtp.starttls.enable", "true");
             }
 
             return this;
