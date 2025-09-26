@@ -38,10 +38,10 @@ app.reactive-email-sender.max-attachment-size=8
 app.reactive-email-sender.sender-email=[your-email]
 
 # 邮箱服务授权码（不建议直接写配置上）
-# app.reactive-email-sender.auth-code=[your-auth-code]
+app.reactive-email-sender.auth-code=[your-auth-code]
 
 # 额外的 Session 属性添加
-# app.reactive-email-sender.session-props=[props]
+app.reactive-email-sender.session-props=[props]
 ```
 
 ### 从配置之外读取邮箱授权码
