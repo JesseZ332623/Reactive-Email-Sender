@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.jessez332623</groupId>
 	<artifactId>reactive_email_sender</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.5</version>
 	<name>reactive_email_sender</name>
 	<description>基于 jakarta.mail 且无缝集成响应式编程的邮件发送器</description>
 
@@ -59,11 +59,6 @@
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
             <version>2.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.activation</groupId>
-            <artifactId>jakarta.activation-api</artifactId>
-            <version>2.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
