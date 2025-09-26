@@ -1,6 +1,5 @@
 package io.github.jessez332623.reactive_email_sender;
 
-
 import io.github.jessez332623.reactive_email_sender.dto.EmailContent;
 import io.github.jessez332623.reactive_email_sender.exception.EmailException;
 import org.jetbrains.annotations.NotNull;
