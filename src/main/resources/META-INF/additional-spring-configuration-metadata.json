@@ -1,0 +1,104 @@
+{
+    "properties": [
+        {
+            "name": "app.reactive-email-sender.enabled",
+            "type": "java.lang.Boolean",
+            "description": "是否启用响应式邮件发送器依赖",
+            "defaultValue": true
+        },
+        {
+            "name": "app.reactive-email-sender.smtp-host",
+            "type": "java.lang.String",
+            "description": "提供 SMTP 服务的运营商主机名（例如：smtp.gmail.com、smtp.qq.com）",
+            "sourceType": "io.github.jessez332623.reactive_email_sender.autoconfigure.ReactiveEmailSenderProperties"
+        },
+        {
+            "name": "app.reactive-email-sender.smtp-port",
+            "type": "java.lang.Integer",
+            "description": "SMTP 端口号。不同服务商端口：Gmail(587 STARTTLS)、Outlook(587 STARTTLS)、Yahoo(465 SSL)、QQ-Mail(465/587 SSL)",
+            "sourceType": "io.github.jessez332623.reactive_email_sender.autoconfigure.ReactiveEmailSenderProperties"
+        },
+        {
+            "name": "app.reactive-email-sender.max-attachment-size",
+            "type": "java.lang.Integer",
+            "description": "附件大小的上限（单位：MB）",
+            "defaultValue": 8
+        },
+        {
+            "name": "app.reactive-email-sender.sender-email",
+            "type": "java.lang.String",
+            "description": "发件人邮箱地址",
+            "sourceType": "io.github.jessez332623.reactive_email_sender.autoconfigure.ReactiveEmailSenderProperties"
+        },
+        {
+            "name": "app.reactive-email-sender.auth-code",
+            "type": "java.lang.String",
+            "description": "邮箱服务授权码（建议使用环境变量或配置中心存储）",
+            "sourceType": "io.github.jessez332623.reactive_email_sender.autoconfigure.ReactiveEmailSenderProperties"
+        },
+        {
+            "name": "app.reactive-email-sender.backoff.max-attempt-times",
+            "type": "java.lang.Integer",
+            "description": "最大邮件发送尝试次数",
+            "defaultValue": 3
+        },
+        {
+            "name": "app.reactive-email-sender.backoff.start-backoff-interval",
+            "type": "java.lang.Long",
+            "description": "指数退避起始时间间隔（单位：秒）",
+            "defaultValue": 1
+        },
+        {
+            "name": "app.reactive-email-sender.backoff.max-backoff-interval",
+            "type": "java.lang.Long",
+            "description": "指数退避封顶时间间隔（单位：秒）",
+            "defaultValue": 10
+        },
+        {
+            "name": "app.reactive-email-sender.session-props",
+            "type": "java.util.Map<java.lang.String, java.lang.String>",
+            "description": "额外的邮件会话属性配置",
+            "sourceType": "io.github.jessez332623.reactive_email_sender.autoconfigure.ReactiveEmailSenderProperties"
+        }
+    ],
+    "hints": [
+        {
+            "name": "app.reactive-email-sender.smtp-host",
+            "values": [
+                {
+                    "value": "smtp.gmail.com",
+                    "description": "Gmail SMTP 服务器"
+                },
+                {
+                    "value": "smtp.qq.com",
+                    "description": "QQ邮箱 SMTP 服务器"
+                },
+                {
+                    "value": "smtp.office365.com",
+                    "description": "Outlook SMTP 服务器"
+                },
+                {
+                    "value": "smtp.mail.yahoo.com",
+                    "description": "Yahoo SMTP 服务器"
+                }
+            ]
+        },
+        {
+            "name": "app.reactive-email-sender.smtp-port",
+            "values": [
+                {
+                    "value": 465,
+                    "description": "SSL 加密端口"
+                },
+                {
+                    "value": 587,
+                    "description": "STARTTLS 端口"
+                },
+                {
+                    "value": 25,
+                    "description": "标准 SMTP 端口"
+                }
+            ]
+        }
+    ]
+}
