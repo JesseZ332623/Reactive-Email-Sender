@@ -18,10 +18,10 @@ import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 import reactor.util.retry.Retry;
 
-import javax.activation.DataHandler;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.mail.util.ByteArrayDataSource;
+import jakarta.activation.DataHandler;
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
+import jakarta.mail.util.ByteArrayDataSource;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
@@ -32,7 +32,7 @@ import java.util.concurrent.Callable;
 import static io.github.jessez332623.reactive_email_sender.exception.EmailException.ErrorType.*;
 import static java.lang.String.format;
 
-/** 封装了 javax.mail 库的响应式邮件发送器。*/
+/** 响应式邮件发送器默认实现。*/
 @Data
 @Slf4j
 public class DefaultReactiveEmailSenderImpl implements ReactiveEmailSender
