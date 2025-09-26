@@ -10,13 +10,14 @@
 
 ### 📢 重要通知
 
-1.1.0 版本完成了模块化迁移，建议使用新版。
+1.1.5 版本完成了模块化迁移，
+以及更细粒度的参数控制，强烈建议使用新版。
 
 ```XML
 <dependency>
     <groupId>io.github.jessez332623</groupId>
     <artifactId>reactive_email_sender</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.5</version>
 </dependency>
 ```
 
@@ -27,13 +28,19 @@
 app.reactive-email-sender.enabled=true
 
 # 提供 SMTP 服务的运营商主机名
-app.reactive-email-sender.smtpHost=smtp.qq.com
+app.reactive-email-sender.smtp-host=smtp.qq.com
 
 # SMTP 端口号
-app.reactive-email-sender.smtpPort=465
+app.reactive-email-sender.smtp-port=465
 
 # 最大邮件发送尝试次数（默认 3 回）
-app.reactive-email-sender.max-attempt-times=5
+app.reactive-email-sender.backoff.max-attempt-times=5
+
+# 指数退避起始时间间隔（单位：秒，默认为 1）
+app.reactive-email-sender.backoff.start-backoff-interval=2
+
+# 指数退避封顶时间间隔（单位：秒，默认为 10）
+app.reactive-email-sender.backoff.max-backoff-interval=5
 
 # 附件大小的上限（单位：MB，默认为 8）
 app.reactive-email-sender.max-attachment-size=8
@@ -44,8 +51,10 @@ app.reactive-email-sender.sender-email=[your-email]
 # 邮箱服务授权码（不建议直接写配置上）
 app.reactive-email-sender.auth-code=[your-auth-code]
 
-# 额外的 Session 属性添加
-app.reactive-email-sender.session-props=[props]
+# 额外的 Session 属性添加示例
+app.reactive-email-sender.session-props.mail.smtp.ssl.enable=true
+app.reactive-email-sender.session-props.mail.smtp.auth=true
+app.reactive-email-sender.session-props.mail.smtp.connectiontimeout=5000
 ```
 
 ### 从配置之外读取邮箱授权码
