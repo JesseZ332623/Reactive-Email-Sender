@@ -48,7 +48,6 @@ public class ReactiveEmailSenderProperties
     private String senderEmail;
 
     /** 邮箱服务授权码 */
-    @NotBlank(message = "Email service auth code not be null")
     private String authCode;
 
     /**
