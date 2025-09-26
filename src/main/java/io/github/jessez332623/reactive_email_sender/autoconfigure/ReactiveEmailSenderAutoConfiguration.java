@@ -1,7 +1,7 @@
 package io.github.jessez332623.reactive_email_sender.autoconfigure;
 
 import io.github.jessez332623.reactive_email_sender.ReactiveEmailSender;
-    import io.github.jessez332623.reactive_email_sender.authorization.EmailServiceAuthCodeGetter;
+import io.github.jessez332623.reactive_email_sender.authorization.EmailServiceAuthCodeGetter;
 import io.github.jessez332623.reactive_email_sender.exception.EmailException.ErrorType;
 import io.github.jessez332623.reactive_email_sender.exception.EmailException;
 import io.github.jessez332623.reactive_email_sender.impl.DefaultReactiveEmailSenderImpl;
