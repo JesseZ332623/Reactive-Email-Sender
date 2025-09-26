@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-/** Mine type 获取器。*/
+/** 附件 Mine Type 获取器。*/
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MimeTypeGetter
 {
@@ -28,14 +28,23 @@ public final class MimeTypeGetter
         MIME_TYPES.put("xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         MIME_TYPES.put("ppt", "application/vnd.ms-powerpoint");
         MIME_TYPES.put("pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
+
         MIME_TYPES.put("jpg", "image/jpeg");
         MIME_TYPES.put("jpeg", "image/jpeg");
         MIME_TYPES.put("png", "image/png");
         MIME_TYPES.put("gif", "image/gif");
+        MIME_TYPES.put("bmp", "image/bmp");
+        MIME_TYPES.put("svg", "image/svg+xml");
+        MIME_TYPES.put("webp", "image/webp");
+
+        MIME_TYPES.put("json", "application/json");
         MIME_TYPES.put("txt", "text/plain");
         MIME_TYPES.put("html", "text/html");
         MIME_TYPES.put("xml", "application/xml");
+
         MIME_TYPES.put("zip", "application/zip");
+        MIME_TYPES.put("7z", "application/x-7z-compressed");
+        MIME_TYPES.put("rar", "application/x-rar-compressed");
     }
 
     /** 通过文件名后缀尝试映射对应的 Mine Type。*/
@@ -48,16 +57,14 @@ public final class MimeTypeGetter
 
         int dotIndex = fileName.lastIndexOf(".");
 
-        if (dotIndex > 0)
-        {
-            String extension
-                = fileName.substring(dotIndex + 1)
-                          .toLowerCase();
-
-            return
-            MIME_TYPES.getOrDefault(extension, DEFAULT_MIME_TYPE);
+        if (dotIndex < 0 || dotIndex == fileName.length() - 1) {
+            return DEFAULT_MIME_TYPE;
         }
 
-        return DEFAULT_MIME_TYPE;
+        return
+        MIME_TYPES.getOrDefault(
+            fileName.substring(dotIndex + 1).toLowerCase(),
+            DEFAULT_MIME_TYPE
+        );
     }
 }
