@@ -90,11 +90,13 @@ public class EmailAuthService implements EmailServiceAuthCodeGetter
 
 - [附件 Mine Type 获取器](https://github.com/JesseZ332623/Reactive-Email-Sender/blob/main/src/main/java/io/github/jessez332623/reactive_email_sender/utils/MimeTypeGetter.java)
 
+## 测试用例
+
+- [测试-01 发送 3 封预设格式的邮件](https://github.com/JesseZ332623/Reactive-Email-Sender/blob/main/documents/%E6%B5%8B%E8%AF%95-01%20%E5%8F%91%E9%80%81%203%20%E5%B0%81%E9%A2%84%E8%AE%BE%E6%A0%BC%E5%BC%8F%E7%9A%84%E9%82%AE%E4%BB%B6.md)
+
 ## 文档
 
 - [完整的 Java Mail Session Properties 表](https://github.com/JesseZ332623/Reactive-Email-Sender/blob/main/documents/%E5%AE%8C%E6%95%B4%E7%9A%84%20Java%20Mail%20Session%20Properties%20%E8%A1%A8.md)
-
-- [测试-01 发送 3 封预设格式的邮件](https://github.com/JesseZ332623/Reactive-Email-Sender/blob/main/documents/%E6%B5%8B%E8%AF%95-01%20%E5%8F%91%E9%80%81%203%20%E5%B0%81%E9%A2%84%E8%AE%BE%E6%A0%BC%E5%BC%8F%E7%9A%84%E9%82%AE%E4%BB%B6.md)
 
 ## LICENCE
 
