@@ -10,14 +10,13 @@
 
 ### 📢 重要通知
 
-1.1.5 版本完成了模块化迁移，
-以及更细粒度的参数控制，强烈建议使用新版。
+1.1.6 修复了一些 Bug，强烈建议使用新版。
 
 ```XML
 <dependency>
     <groupId>io.github.jessez332623</groupId>
     <artifactId>reactive_email_sender</artifactId>
-    <version>1.1.5</version>
+    <version>1.1.6</version>
 </dependency>
 ```
 
@@ -117,4 +116,4 @@ public class EmailAuthService implements EmailServiceAuthCodeGetter
 
 ## Latest Update
 
-*2025.09.26*
+*2026.02.25*
