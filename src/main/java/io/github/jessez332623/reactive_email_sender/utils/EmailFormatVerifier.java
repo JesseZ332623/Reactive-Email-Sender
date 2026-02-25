@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import reactor.core.publisher.Mono;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
+import static io.github.jessez332623.reactive_email_sender.exception.EmailException.ErrorType.INVALID_CONTENT;
 import static java.lang.String.format;
 
 /** 邮箱格式验证工具类。*/
@@ -24,19 +24,30 @@ final public class EmailFormatVerifier
     public static @NotNull Mono<Void>
     isValid(@NotNull String email)
     {
-        Objects.requireNonNull(email, "Param of email not be null!");
+        // 在响应式代码中严禁出现同步校验，
+        // 抛出的 NPE 会直接破坏整个响应式管道。
+        // Objects.requireNonNull(email, "Param of email not be null!");
 
-        return Mono.fromSupplier(() ->
-                EMAIL_PATTERN.matcher(email).matches())
-            .filter((isValid) -> isValid)
+        return
+        Mono.justOrEmpty(email)
+            .flatMap((e) ->
+                Mono.fromSupplier(() -> EMAIL_PATTERN.matcher(e).matches())
+                    .filter((isValid) -> isValid)
+                    .switchIfEmpty(
+                        Mono.error(
+                            new EmailException(
+                                INVALID_CONTENT, format("%s is invalid email format!", e)
+                            )
+                        )
+                    )
+            )
             .switchIfEmpty(
                 Mono.error(
                     new EmailException(
-                            EmailException.ErrorType.INVALID_CONTENT,
-                            format("%s is invalid email format!", email)
-                        )
+                        INVALID_CONTENT, "Param of email must not be null!"
                     )
                 )
+            )
             .then();
     }
 }
