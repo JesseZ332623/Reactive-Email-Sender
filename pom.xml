@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.jessez332623</groupId>
 	<artifactId>reactive_email_sender</artifactId>
-	<version>1.1.5</version>
+	<version>1.1.6</version>
 	<name>reactive_email_sender</name>
 	<description>基于 jakarta.mail 且无缝集成响应式编程的邮件发送器</description>
 
