@@ -27,7 +27,6 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
-import java.util.concurrent.Callable;
 
 import static io.github.jessez332623.reactive_email_sender.exception.EmailException.ErrorType.*;
 import static java.lang.String.format;
@@ -275,22 +274,29 @@ public class DefaultReactiveEmailSenderImpl implements ReactiveEmailSender
     getMultipart(@NotNull EmailContent content)
         throws MessagingException, IOException, NullPointerException
     {
-        Multipart multipart = new MimeMultipart();
-        BodyPart  textPart  = new MimeBodyPart();
+        final Multipart multipart = new MimeMultipart();
+        final BodyPart  textPart  = new MimeBodyPart();
 
-        textPart.setText(content.getTextBody());
+        // 根据内容类型设置正文部分
+        if (content.isHtml()) {
+            textPart.setContent(content.getTextBody(), content.getContentType());
+        } else {
+            textPart.setText(content.getTextBody());
+        }
+
         multipart.addBodyPart(textPart);
 
         // 若 content 内的附件路径不为空，则需要添加附件
         if (content.hasAttachment())
         {
-            ByteArrayDataSource attachment
+            final ByteArrayDataSource attachment
                 = getAttachment(
                     Objects.requireNonNull(content.getAttachmentName()),
                     Objects.requireNonNull(content.getAttachmentData())
                 );
 
-            MimeBodyPart attachmentPart = new MimeBodyPart();
+            final MimeBodyPart attachmentPart = new MimeBodyPart();
+
             attachmentPart.setDataHandler(new DataHandler(attachment));
             attachmentPart.setFileName(
                 MimeUtility.encodeText(
@@ -331,7 +337,7 @@ public class DefaultReactiveEmailSenderImpl implements ReactiveEmailSender
 
     /**
      * 邮件发送的主要逻辑，由于传统的邮件发送是阻塞式的，
-     * 所有我需要调用 {@link Mono#fromCallable(Callable)} 把整个邮件组装发送的逻辑封装，
+     * 所有我需要调用 {@link Mono#fromRunnable} 把整个邮件组装发送的逻辑封装，
      * 最后调用 {@link Mono#subscribeOn(Scheduler)} 将整个任务提交给线程池去执行。
      *
      * @param content 邮件内容
@@ -343,16 +349,16 @@ public class DefaultReactiveEmailSenderImpl implements ReactiveEmailSender
     private @NotNull Mono<Void>
     sendEmailReactive(EmailContent content, String fromName, String authCode)
     {
-        return Mono.fromCallable(() -> {
+        return Mono.fromRunnable(() -> {
             try
             {
-                Session newSession
+                final Session newSession
                     = createSession(this.mailProperties, fromName, authCode);
 
-                Message message
+                final Message message
                     = new MimeMessage(newSession);
 
-                if (fromName != null) {
+                if (Objects.nonNull(fromName)) {
                     message.setFrom(new InternetAddress(fromName));
                 }
 
@@ -363,16 +369,20 @@ public class DefaultReactiveEmailSenderImpl implements ReactiveEmailSender
 
                 message.setSubject(content.getSubject());
 
-                if (!content.hasAttachment()) {
-                    message.setText(content.getTextBody());
+                if (!content.hasAttachment())
+                {
+                    if (content.isHtml()) {
+                        message.setContent(content.getTextBody(), content.getContentType());
+                    }
+                    else {
+                        message.setText(content.getTextBody());
+                    }
                 }
                 else {
-                    message.setContent(getMultipart(content));
+                    message.setContent(this.getMultipart(content));
                 }
 
                 Transport.send(message);
-
-                return null;
             }
             catch (AuthenticationFailedException exception)
             {
