@@ -47,6 +47,11 @@ public final class MimeTypeGetter
         MIME_TYPES.put("rar", "application/x-rar-compressed");
     }
 
+    /** 查询 MIME Type 映射表。*/
+    public static String queryMimeType(String name) {
+        return MIME_TYPES.getOrDefault(name, DEFAULT_MIME_TYPE);
+    }
+
     /** 通过文件名后缀尝试映射对应的 Mine Type。*/
     public static String
     getMimeTypeFromExtension(String fileName)

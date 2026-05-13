@@ -10,13 +10,13 @@
 
 ### 📢 重要通知
 
-1.1.6 修复了一些 Bug，强烈建议使用新版。
+1.2.0 支持 HTML 格式的邮件正文，强烈建议使用新版。
 
 ```XML
 <dependency>
     <groupId>io.github.jessez332623</groupId>
     <artifactId>reactive_email_sender</artifactId>
-    <version>1.1.6</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
@@ -116,4 +116,4 @@ public class EmailAuthService implements EmailServiceAuthCodeGetter
 
 ## Latest Update
 
-*2026.02.25*
+*2026.06.13*

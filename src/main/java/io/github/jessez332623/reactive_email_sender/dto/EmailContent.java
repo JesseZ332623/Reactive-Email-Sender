@@ -11,17 +11,7 @@ import java.util.Objects;
 
 import static java.lang.String.format;
 
-/**
- * <p>向指定用户发送邮件的内容实体，有 </p>
- *
- * <ul>
- *     <li>{@link EmailContent#fromVarify(String, String, int, Duration)}</li>
- *     <li>{@link EmailContent#fromJustText(String, String, String)}</li>
- *     <li>{@link EmailContent#formWithAttachment(String, String, String, String, String, byte[])}</li>
- * </ul>
- *
- * <p>三个预设构造，也支持生成器模式进行自定义。</p>
- */
+/** 自定义邮件对象。*/
 @Data
 @Builder
 @ToString
@@ -30,12 +20,22 @@ import static java.lang.String.format;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class EmailContent
 {
+    private final static
+    String TEXT_CONTENT_TYPE = "text/plain; charset=UTF-8";
+
+    private final static
+    String HTML_CONTENT_TYPE = "text/html; charset=UTF-8";
+
     /** 发给谁 (如 PerterGriffen@gmail.com) */
     @Getter
     private String to;
 
     /** 邮件主题 */
     private String subject;
+
+    /** 邮件文本类型（默认为纯文本）*/
+    @Builder.Default
+    private String contentType = TEXT_CONTENT_TYPE;
 
     /** 邮件正文 */
     private String textBody;
@@ -61,6 +61,14 @@ public class EmailContent
         Objects.nonNull(this.attachmentName) &&
         Objects.nonNull(this.attachmentData) &&
         this.attachmentData.length > 0;
+    }
+
+    /** 检查这封邮件的正文是否为 HTML 格式的。*/
+    public boolean isHtml()
+    {
+        return
+        Objects.nonNull(this.contentType)
+        && this.contentType.equals(HTML_CONTENT_TYPE);
     }
 
     /**
@@ -129,6 +137,29 @@ public class EmailContent
 
             return emailContent;
         });
+    }
+
+    /**
+     * 发送正文为 HTML 的邮件（不带附件）。
+     *
+     * @param userEmail     收件人邮箱
+     * @param subject       邮件标题
+     * @param html          邮件正文（HTML 格式，比如使用 Thymeleaf 框架生成的）
+     */
+    public static @NotNull Mono<EmailContent>
+    fromHtml(String userEmail, String subject, String html)
+    {
+       return
+       Mono.fromCallable(() ->
+           EmailContent.builder()
+               .to(userEmail)
+               .subject(subject)
+               .textBody(html)
+               .contentType(HTML_CONTENT_TYPE)
+               .attachmentName(null)
+               .attachmentData(null)
+               .build()
+       );
     }
 
     /**
